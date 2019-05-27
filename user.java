@@ -5,20 +5,25 @@ import java.io.IOException;
 //we decided to use an interface as java does not support multiple inheritance
 public class user extends db_connection implements user_abilities {
 
-	String fullname;
+private String fullname, passport_number;
+	
 	
 	//constructor
-	public user(String Name) {
+	public user(String Name, String Passport) {
 		super();
 		this.fullname = Name;
+		this.passport_number = Passport;
 		
 	}
 
 	@Override
-	public void search_flights(String boarding_location, String destination_location, String departure_date,
+	public String search_flights(String boarding_location, String destination_location, String departure_date,
 			String return_date) throws IOException {
 		// this function will search for flights from database
-
+		
+				String result="no results found, for now";
+				
+				return result;	
 	}
 
 	@Override
