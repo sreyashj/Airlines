@@ -1,10 +1,11 @@
 //importing necessary libraries
 package airline;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Scanner;
 
 public class Main {
-    public static void main (String[] args){
+    public static void main (String[] args) throws IOException{
     	
 
           //variables we shall use in this class
@@ -12,15 +13,16 @@ public class Main {
     	    int option = 0;
     	    String travel_from ="";
     	    String travel_to ="";
-    	    String departure_date ="";
-    	    String returning_date = "";
-    	    String flight_number = "";
+    	    String departure_date;
+    	    String returning_date;
+    	    int flight_number;
     	    String passport_number = "none_present";
     	    String full_name="none_present";
-    	    String booking_number="";
-    	    int flight_number_booking;
-    	    int payment_method;
-    	    user new_user;
+    	    String password = "none_present";
+    	    int booking_number;
+    	    int flight_number_booking = 0;
+    	    String payment_method;
+    	    user new_user = null;
     	    
     	    boolean logged_in=false;
     	    
@@ -70,8 +72,9 @@ public class Main {
     				   full_name = console.nextLine();
     				   System.out.println("Please enter passport:");
     				   passport_number = console.nextLine();
-    				   System.out.println("Please enter departure date:");
-    				   new_user = new user(full_name,passport_number);
+    				   System.out.println("Please enter your password:");
+    				   password = console.nextLine();
+    				   new_user = new user(full_name,passport_number,password);
     				     
     			   break;
     			   
@@ -83,16 +86,9 @@ public class Main {
     				   travel_to = console.nextLine();
     				   System.out.println("Please enter departure date:");
     				   departure_date = console.nextLine();
-    				   System.out.println("Please enteSystem.out.println(\"[5] Change Booking\");r return date:");
+    				   System.out.println("Please enter return date:");
     				   returning_date = console.nextLine();
-    					
-    				   new_user = new user("Shrayesh Joshi","EN02735");
-    				   try {
-    					   result = new_user.search_flights(travel_from, travel_to, departure_date, returning_date);
-    					   } catch (IOException e) {
-						   // We cannot search our database, data is either missing or invalid
-						   e.printStackTrace();
-						   }
+    				  // new_user.search_flights(travel_from, travel_to, departure_date, returning_date);
     				   
     					 System.out.println("");   
     			   break;
@@ -100,30 +96,31 @@ public class Main {
     			   case 2:
     				   //this case allows user to view flight details
     				   System.out.println("Please enter flight number:");
-    				   flight_number = console.nextLine();
-    				   System.out.println("Please enter passport number:");
-    				   passport_number = console.nextLine();
+    				   flight_number = console.nextInt();
+    			       try {
+						new_user.view_flights(flight_number);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
     				   System.out.println("");  
     			   break;
     			   
     			   case 3:
     				   //this case allows users to make a booking for a flight
-    				   System.out.println("Please enter full name:");	
-    				   full_name = console.next();  
     				   System.out.println("Please enter flight number:");	
     				   flight_number_booking = console.nextInt();
     				   System.out.println("Please select payment method:");	
-    				   payment_method = console.nextInt();
+    				   payment_method = console.next();
     				   System.out.println("");  
+    				   new_user.make_booking(flight_number_booking,payment_method);
     			   break;
     			   
     			   case 4:
     				   //this case allows users to cancel an existing booking
     				   System.out.println("Please enter booking number:");
-    				   booking_number = console.next();
-    				   System.out.println("Please enter passport number:");
-    				   passport_number = console.next();
+    				   booking_number = console.nextInt();
     				   System.out.println("");  
+    				   new_user.cancel_booking(flight_number_booking);
     			   break;
     			   
     			   case 5:
@@ -135,7 +132,7 @@ public class Main {
     				     
     				   //
     				   System.out.println("Please enter booking number to change details:");
-    				   booking_number = console.next();
+    				   booking_number = console.nextInt();
     				   
     				   System.out.println("");
     			
@@ -143,7 +140,7 @@ public class Main {
     			
     		 }
     		        //goodbye message
-    		        System.out.println("Thank you for using Nepal Airlines! Have a nice day.");
+    		        //System.out.println("Thank you for using Nepal Airlines! Have a nice day.");
     		   }
             
     }
